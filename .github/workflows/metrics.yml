@@ -24,9 +24,10 @@ jobs:
       - uses: lowlighter/metrics@latest
         with:
           # A tokent a repo Settings > Secrets and variables > Actions alatt hozd létre
-          # Fine-grained token esetén elég: Contents (read/write), Metadata (read)
+          # FONTOS: classic (nem fine-grained) token kell, "repo" scope-pal
           token: ${{ secrets.METRICS_TOKEN }}
           filename: github-metrics.svg
+          debug: yes
 
           # --- Alap megjelenés ---
           template: classic
@@ -59,9 +60,10 @@ jobs:
 
           # --- Kiemelt repók (pinnelt, vagy legaktívabb) ---
           plugin_repositories: yes
-          plugin_repositories_featured: f1-dashboard, homelab-configs
-          # cseréld ki a saját repó neveidre, vagy hagyd üresen a legaktívabbak
-          # automatikus kiválasztásához
+          # üresen hagyva a legaktívabb/legutóbb frissített repókat választja automatikusan
+          # ha konkrét repókat akarsz kiemelni, itt sorold fel a PONTOS, saját fiókodban
+          # létező repó neveket vesszővel elválasztva, pl:
+          # plugin_repositories_featured: metrics-teszt, homelab-configs
 
           # --- Csillagozók ---
           plugin_stargazers: yes
@@ -70,4 +72,6 @@ jobs:
           # --- Achievements (badge-ek) ---
           plugin_achievements: yes
           plugin_achievements_display: compact
-          plugin_achievements_secrets: yes
+          plugin_achievements_secrets: no
+          # a "secrets" (rejtett achievementek) opció profil-oldal scrapinget igényel,
+          # ami gyakran instabil - ha a debug logban ez hibázik, ez már ki van kapcsolva
