@@ -37,7 +37,7 @@ jobs:
 
           # --- Commit naptár (isometric calendar) ---
           plugin_isocalendar: yes
-          plugin_isocalendar_duration: full-year
+          plugin_isocalendar_duration: half-year
 
           # --- Nyelvi statisztika ---
           plugin_languages: yes
@@ -66,13 +66,6 @@ jobs:
           # TÖRÖLVE (felhasználói kérésre)
 
           # --- Extra "feldobó" pluginek ---
-          # Pontosabb nyelvi statisztika (klónozza a repókat, ezért lassabb és
-          # analysis_timeout kell hozzá, de sokkal szebb/pontosabb arányokat ad)
-          plugin_languages_indepth: yes
-          plugin_languages_details: percentage
-
-          # Teljes évet mutató isometric naptár már fentebb beállítva
-
           # Hány sor kódot írtál összesen (compact módban a base repositories
           # szekcióba simul, nem külön blokk)
           plugin_lines: yes
