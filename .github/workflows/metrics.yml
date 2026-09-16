@@ -32,6 +32,7 @@ jobs:
           # --- Alap megjelenés ---
           template: classic
           base: header, activity, community, repositories, metadata
+          base_indepth: yes
           config_timezone: Europe/Bratislava
 
           # --- Commit naptár (isometric calendar) ---
@@ -59,12 +60,28 @@ jobs:
           plugin_achievements: no
 
           # --- Kiemelt repók (pinnelt, vagy legaktívabb) ---
-          plugin_repositories: yes
-          # üresen hagyva a legaktívabb/legutóbb frissített repókat választja automatikusan
-          # ha konkrét repókat akarsz kiemelni, itt sorold fel a PONTOS, saját fiókodban
-          # létező repó neveket vesszővel elválasztva, pl:
-          # plugin_repositories_featured: metrics-teszt, homelab-configs
+          # TÖRÖLVE (felhasználói kérésre)
 
           # --- Csillagozók ---
-          plugin_stargazers: yes
-          plugin_stargazers_charts: yes
+          # TÖRÖLVE (felhasználói kérésre)
+
+          # --- Extra "feldobó" pluginek ---
+          # Pontosabb nyelvi statisztika (klónozza a repókat, ezért lassabb és
+          # analysis_timeout kell hozzá, de sokkal szebb/pontosabb arányokat ad)
+          plugin_languages_indepth: yes
+          plugin_languages_details: percentage
+
+          # Teljes évet mutató isometric naptár (a fél év helyett) - látványosabb
+          plugin_isocalendar_duration: full-year
+
+          # Hány sor kódot írtál összesen (compact módban a base repositories
+          # szekcióba simul, nem külön blokk)
+          plugin_lines: yes
+          plugin_lines_sections: base
+          plugin_lines_delay: 30
+
+          # Kiemelt/notable közreműködések más (nem sajád) repókban - ha vannak
+          # ilyenek, nagyon jól mutat egy IT-s profilon
+          plugin_notable: yes
+          plugin_notable_types: pr, issue
+          plugin_notable_filter: reactions>0 stargazers>0
