@@ -47,16 +47,16 @@ jobs:
           plugin_languages_threshold: 0%
           plugin_languages_limit: 8
 
-          # --- Kódolási szokások (napszak szerinti aktivitás) ---
-          plugin_habits: yes
-          plugin_habits_charts_type: bar
-          plugin_habits_days: 14
-          plugin_habits_facts: yes
-
-          # --- Legutóbbi aktivitás ---
-          plugin_activity: yes
-          plugin_activity_limit: 5
-          plugin_activity_visibility: public
+          # --- Kódolási szokások, legutóbbi aktivitás, achievements ---
+          # Ez a három plugin jelenleg ismert, javítatlan upstream bugok miatt
+          # mindig "Unexpected error"-t dob (nem a te fiókod/beállításod a hiba oka):
+          #  - habits: TypeError egy hozzáférhetetlen commit feldolgozásakor
+          #  - activity: TypeError null actor mezőjű eseménynél
+          #  - achievements: a GitHub kivezette a Projects (classic) API-t, amit ez még hív
+          # Ezért egyelőre kikapcsolva. Ha a projekt frissül és javítják, visszakapcsolhatók.
+          plugin_habits: no
+          plugin_activity: no
+          plugin_achievements: no
 
           # --- Kiemelt repók (pinnelt, vagy legaktívabb) ---
           plugin_repositories: yes
@@ -68,10 +68,3 @@ jobs:
           # --- Csillagozók ---
           plugin_stargazers: yes
           plugin_stargazers_charts: yes
-
-          # --- Achievements (badge-ek) ---
-          plugin_achievements: yes
-          plugin_achievements_display: compact
-          plugin_achievements_secrets: no
-          # a "secrets" (rejtett achievementek) opció profil-oldal scrapinget igényel,
-          # ami gyakran instabil - ha a debug logban ez hibázik, ez már ki van kapcsolva
