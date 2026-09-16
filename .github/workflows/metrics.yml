@@ -1,0 +1,73 @@
+# .github/workflows/metrics.yml
+# Ez a te profil-repódba kerül (pl. schneweisz/schneweisz)
+# Naponta és minden push-ra legenerálja a github-metrics.svg-t
+
+name: Metrics
+on:
+  # Automatikus futás minden nap 00:00-kor (UTC)
+  schedule:
+    - cron: "0 0 * * *"
+  # Manuális indítás az Actions fülről
+  workflow_dispatch:
+  # Push-ra is frissüljön
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          # A tokent a repo Settings > Secrets and variables > Actions alatt hozd létre
+          # Fine-grained token esetén elég: Contents (read/write), Metadata (read)
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: github-metrics.svg
+
+          # --- Alap megjelenés ---
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: Europe/Bratislava
+
+          # --- Commit naptár (isometric calendar) ---
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
+
+          # --- Nyelvi statisztika ---
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_categories: markup, programming
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 14
+          plugin_languages_threshold: 0%
+          plugin_languages_limit: 8
+
+          # --- Kódolási szokások (napszak szerinti aktivitás) ---
+          plugin_habits: yes
+          plugin_habits_charts_type: bar
+          plugin_habits_days: 14
+          plugin_habits_facts: yes
+
+          # --- Legutóbbi aktivitás ---
+          plugin_activity: yes
+          plugin_activity_limit: 5
+          plugin_activity_visibility: public
+
+          # --- Kiemelt repók (pinnelt, vagy legaktívabb) ---
+          plugin_repositories: yes
+          plugin_repositories_featured: f1-dashboard, homelab-configs
+          # cseréld ki a saját repó neveidre, vagy hagyd üresen a legaktívabbak
+          # automatikus kiválasztásához
+
+          # --- Csillagozók ---
+          plugin_stargazers: yes
+          plugin_stargazers_charts: yes
+
+          # --- Achievements (badge-ek) ---
+          plugin_achievements: yes
+          plugin_achievements_display: compact
+          plugin_achievements_secrets: yes
