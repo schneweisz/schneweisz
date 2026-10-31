@@ -14,6 +14,9 @@ on:
     branches:
       - main
       - master
+      - design
+      - frontend
+      - backend
 
 jobs:
   github-metrics:
