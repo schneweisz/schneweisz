@@ -4,19 +4,28 @@
 
 name: Metrics
 on:
-  # Automatikus futás minden nap 00:00-kor (UTC)
+  # Biztonsági háló: 3 óránként akkor is frissül, ha valamelyik repóból
+  # nem jött jelzés (pl. ott még nincs beállítva a notify workflow)
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "17 */3 * * *"
   # Manuális indítás az Actions fülről
   workflow_dispatch:
-  # Push-ra is frissüljön
+  # Más repókból érkező jelzés: a többi repóban lévő notify-profile.yml
+  # minden push után ezt küldi, így bármelyik repóba pusholsz, frissül
+  repository_dispatch:
+    types: [metrics-refresh]
+  # Push erre a (profil) repóra
   push:
     branches:
       - main
-      - master
-      - design
-      - frontend
-      - backend
+    paths-ignore:
+      - github-metrics.svg
+
+# Ha egyszerre több push/jelzés érkezik, ne fusson párhuzamosan két
+# generálás (különben ütközne a commitjuk) – a régebbit elvetjük
+concurrency:
+  group: metrics
+  cancel-in-progress: true
 
 jobs:
   github-metrics:
